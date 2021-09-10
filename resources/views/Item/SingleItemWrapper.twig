@@ -1,0 +1,93 @@
+{% extends getPartial('page-design') %}
+{% import "Ceres::PageDesign.Macros.LayoutContainer" as LayoutContainer %}
+{% import "Ceres::PageDesign.Macros.ItemName" as ItemName %}
+
+{% block PartialHead %}
+
+    {% set itemData = item.documents[0].data %}
+
+    {% if queryString() | length > 0 %}
+        {% set robotsValue = 'NOINDEX' %}
+    {% else %}
+        {% set robotsValue = 'ALL' %}
+    {% endif %}
+    {% embed getPartial('page-metadata') %}
+        {% block title          ItemName.get(itemData | itemName(webstoreConfig.urlTitleItemName - 1), itemData.variation.bundleType) %}
+        {% block description    itemData.texts.metaDescription %}
+        {% block keywords       itemData.texts.keywords %}
+        {% block image          itemData.images.all[0].url %}
+        {% block robots         robotsValue %}
+        {% block schemaOrg %}
+            {
+            "@context"      : "http://schema.org/",
+            "@type"         : "Product",
+            "@id"           : "{{ itemData.variation.id }}",
+            "name"          : "{{ ItemName.get(itemData | itemName, itemData.variation.bundleType) | trim }}",
+            "category"      : "{{ defaultCategory.details[0].name }}",
+            "releaseDate"   : "{{ itemData.variation.releasedAt }}",
+            "image"         : "{{ itemData.images.all[0].urlPreview }}",
+            "identifier"    : "{{ itemData.variation.id }}",
+            "description"   : "{{ itemData.texts.description | striptags | filterTabs }}",
+            "disambiguatingDescription" : "{{ itemData.texts.shortDescription }}",
+            {% if manufacturer | length > 0 %}
+                "manufacturer"  : {
+                "@type"         : "Organization",
+                "name"          : "{{ manufacturer }}"
+                },
+            {%  endif %}
+            {% if brand | length  > 0 %}
+                "brand"         : {
+                "@type"         : "Brand",
+                "name"          : "{{ brand }}"
+                },
+            {% endif %}
+            "offers": {
+            "@type"         : "Offer",
+            "priceCurrency" : "{{ itemData.prices.default.currency }}",
+            "price"         : "{{ itemData.prices.default.price.value | number_format(2, '.', '') }}",
+            "url"           : "{{ requestedVariationUrl }}",
+            {% if itemData.prices.default.baseLot > 0 %}
+                "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": "{{ itemData.prices.default.price.value | number_format(2, '.', '') }}",
+                "priceCurrency": "{{ item.documents[0].data.prices.default.currency }}",
+                "referenceQuantity": {
+                "@type": "QuantitativeValue",
+                "value": "{{ itemData.unit.content }}",
+                "unitCode": "{{ itemData.unit.unitOfMeasurement }}"
+                }
+                },
+            {% endif %}
+            "availability"  : "{{ itemData.variation.availability.mappedAvailability }}",
+            "itemCondition" : "{{ itemData.item.condition.names.name }}",
+            "serialNumber"  : "{{ itemData.variation.number }}"
+            },
+            "depth": {
+            "@type"         : "QuantitativeValue",
+            "value"         : "{{ itemData.variation.lengthMM }}"
+            },
+            "width": {
+            "@type"         : "QuantitativeValue",
+            "value"         : "{{ itemData.variation.widthMM }}"
+            },
+            "height": {
+            "@type"         : "QuantitativeValue",
+            "value"         : "{{ itemData.variation.heightMM }}"
+            },
+            "weight": {
+            "@type"         : "QuantitativeValue",
+            "value"         : "{{ itemData.variation.weightG }}"
+            }
+            }
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
+
+{% block PageBody %}
+    {{ set_item_data_base(item.documents[0].data) }}
+
+    {% set currentCategory = services.category.getCurrentCategory() %}
+
+    {% include "Theme::Item.SingleItemView" %}
+
+{% endblock %}

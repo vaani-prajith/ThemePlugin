@@ -1,0 +1,19 @@
+{
+    "name"              :   "Theme",
+    "namespace"         :   "Theme",
+    "type"              :   "theme",
+    "version"           :   "0.0.1",
+    "pluginIcon"        :   "icon_plugin_xs.png",
+    "description"       :   "demo theme",
+    "author"            :   "user",
+    "authorIcon"        :   "icon_author_xs.png",
+    "serviceProvider"   :   "Theme\\Providers\\ThemeServiceProvider",
+    "dataProviders"     :
+            [
+                {
+                    "key"           : "Theme\\Containers\\ThemeContainer",
+                    "name"          : "Stylesheet",
+                    "description"   :"Change Styles"
+                }
+            ]
+}

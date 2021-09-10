@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../CardPlugin/.idea/CardPlugin.iml" filepath="$PROJECT_DIR$/../CardPlugin/.idea/CardPlugin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Theme.iml" filepath="$PROJECT_DIR$/.idea/Theme.iml" />
+      <module fileurl="file://$USER_HOME$/Ceres/.idea/plugin-ceres.iml" filepath="$USER_HOME$/Ceres/.idea/plugin-ceres.iml" />
+    </modules>
+  </component>
+</project>
