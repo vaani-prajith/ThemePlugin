@@ -86,8 +86,6 @@
 {% block PageBody %}
     {{ set_item_data_base(item.documents[0].data) }}
 
-    {% set currentCategory = services.category.getCurrentCategory() %}
-
     {% include "Theme::Item.SingleItemView" %}
 
 {% endblock %}

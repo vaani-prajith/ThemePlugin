@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Montserrat:wght@800&family=Quicksand&family=Montserrat&family=Nunito&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Montserrat:wght@800&family=Quicksand&family=Montserrat&family=Nunito&family=Lato:wght@300&display=swap');
 
 body {
     background-color: #FFFFFF!important;
@@ -11,6 +11,92 @@ body {
     font-family: 'Montserrat', sans-serif;
     font-weight: bold;
     color: #1b1e21!important;
+    background-color: #f8f9fa;
+}
+.main-navbar-collapsable .mainmenu > li:hover{
+    background-color: #f8f9fa;
+}
+.mobile-navigation{
+    background: #FFFFFF;
+    color: black;
+}
+/*category page general styles*/
+.categoriegrid{
+    font-family: 'Lato', sans-serif!important;
+}
+/*align category title centered*/
+.category-title{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+/*subcategory styles*/
+.image-box{
+    display: block;
+    position: relative;
+    overflow: hidden;
+}
+.image-box > span {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    padding: 9px 10px;
+    font-size: 16px;
+    text-transform: uppercase;
+    color: #fff;
+}
+.bg-info{
+    display: none!important;
+}
+
+/*breadcrumbs*/
+.breadcrumbs{
+    background-color: inherit!important;
+}
+.breadcrumbs nav.small{
+    font-size: 20px;
+}
+.breadcrumbs nav a{
+    text-decoration: none!important;
+    color: #6c757d ;
+}
+.breadcrumbs ul.breadcrumb{
+    background-color: inherit;
+}
+.breadcrumb-item + .breadcrumb-item::before {
+    display: inline-block;
+    padding-right: .5rem;
+    color: #6c757d;
+    content: ">";
+}
+/*circle background for icon*/
+.circle-icon{
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    height: 30px;
+    width: 30px;
+    cursor: pointer;
+    justify-content: center;
+    color: #FFFFFF;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    z-index: 1;
+    text-align: center;
+    line-height: 30px;
+    background-color: #eb5169;
+    padding: 25px;
+    box-shadow: 0 0 5px 0;
+    border-radius: 50%;
+}
+/*item content under item image in category view*/
+.cmp-product-thumb .thumb-content {
+    display: inline-block;
+    width: 100%;
+    padding: 0 .8rem;
+    vertical-align: top;
+    background-color: #fff;
 }
 .widget .widget-text .widget-inner  h1{
     font-family: 'Amatic SC', cursive;

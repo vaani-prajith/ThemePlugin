@@ -1,0 +1,126 @@
+{% extends getPartial('page-design') %}
+{% import "Ceres::PageDesign.Macros.LayoutContainer" as LayoutContainer %}
+{% import "Ceres::Category.Macros.CategoryTree" as Tree %}
+{% set ideen = [26] %}
+
+{% set overrideSearchFilters = LayoutContainer.show("Ceres::Search.Filter", facets ) %}
+
+{% block PageBody %}
+    {% set listType = isSearch ? "itemsearch" : "categoryitem" %}
+    {% set shopBuilderTemplate = shop_builder_category_template(category.id, listType) %}
+
+    {% if shopBuilderTemplate | trim is not empty or isShopBuilder %}
+
+    <div class="categoriegrid pt-0 page-content container-max">
+        <div class="row">
+            <div class="col-12">
+                {{ shopBuilderTemplate | raw }}
+            </div>
+        </div>
+    </div>
+
+    {% else %}
+    <div class="categoriegrid page-content container-max">
+        <div class="row mt-3">
+            <div class="col-12">
+                <h1 class="h2 category-title">{{category.details[0].name }}</h1>
+            </div>
+        </div>
+
+        <div class="row">
+            {# subcategory display #}
+            {% set subCategories = services.category.getChildren(category.id) %}
+            {% for subCategory in subCategories %}
+                {% if subCategory.linklist=="Y"%}
+                    {# {% set URL = services.category.getURLById(subCategory.id) %}  #}
+                    <div class="col-6  col-md-3 mb-4">
+                        <a href="{{ subCategory.details[0].nameUrl }}" class="image-box">
+                            {% if subCategory.details[0].imagePath%}
+                                {% set imagePath = "/documents/" ~ subCategory.details[0].imagePath %}
+                                <img src="{{ imagePath }}" class="cat-img img-fluid">
+                                {% if '#' in subCategory.details[0].metaKeywords %}
+                                    <span class="d-block" style="background-color:{{ subCategory.details[0].metaKeywords }}">
+                                        {{ subCategory.details[0].name | raw }}
+                                    </span>
+                                {% else %}
+                                    <span class="d-block w-bg-{{ subCategory.details[0].metaKeywords }}">
+                                        {{ subCategory.details[0].name | raw }}
+                                    </span>
+                                {% endif %}
+                            {% endif %}
+                        </a>
+                    </div>
+                {% endif %}
+            {% endfor %}
+
+            <div class="col-12 d-lg-none d-sm-block">
+                <hr style="border-top: 5px solid #3b1522">
+            </div>
+
+            <div class="col-12 col-lg-{% if category is defined and ceresConfig.header.showNavBars in ["side", "both"] %}9{% else %}12{% endif %}">
+                {# breadcrumbs added #}
+                {{ include('Theme::PageDesign.Breadcrumb.twig') }}
+                {% if itemList is not empty %}
+                    <ul class="product-list row grid">
+                        {% for item in itemList %}
+                            <li class="col-6 col-sm-6 col-md-4 col-lg-{% if category is defined and ceresConfig.header.showNavBars in ["side", "both"] %}4{% else %}3{% endif %}">
+                                <category-item
+                                        item-data-ref="{{ item.data | json_data }}"
+                                        :decimal-count="{{ ceresConfig.item.storeSpecial }}">
+
+                                        <template #before-prices>
+                                            {{ LayoutContainer.show("Ceres::CategoryItem.BeforePrices", item.data) }}
+                                        </template>
+                                        <template #after-prices>
+                                            {{ LayoutContainer.show("Ceres::CategoryItem.AfterPrices", item.data) }}
+                                        </template>
+
+                                    {# slot for item name #}
+                                    <template #item-name>
+                                        <p>{{ item.data | itemName }}</p>
+                                    </template>
+                                    <a href="{{ item.data | itemURL }}" class="small">
+                                        <i class="fa fa-image"></i>
+                                        <span>{{ item.data | itemName }}</span>
+                                    </a>
+                                </category-item>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+
+                {% if category is not defined and itemList is empty %}
+                    <p class="h3 text-muted mb-5 text-center">{{ trans("Ceres::Template.itemSearchNoResults", {"searchString": searchString}) }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}
+
+{% block PartialHead %}
+    {% set canonicalUrl = services.url.getCanonicalURL(null, true) %}
+    {% if currentPage - 1 > 0 %}
+        <link rel="prev" href="{{ canonicalUrl ~ queryString({'page': currentPage - 1}) }}" />
+    {% endif %}
+
+    {% if currentPage + 1 <= pageMax %}
+        <link rel="next" href="{{ canonicalUrl ~ queryString({'page': currentPage + 1}) }}" />
+    {% endif %}
+
+    {% if category is null %}
+        {% if '&' in queryString() %}
+            {% set robotsValue = 'NOINDEX' %}
+        {% else %}
+            {% set robotsValue = ceresConfig.meta.robotsSearchResult %}
+        {% endif %}
+
+        {% embed getPartial('page-metadata') %}
+            {% block title      trans("Ceres::Template.itemSearchResults") ~ " " ~ searchString %}
+            {% block robots     robotsValue %}
+        {% endembed %}
+    {% else %}
+        {% embed getPartial('page-metadata') %}
+        {% endembed %}
+    {% endif %}
+{% endblock %}

@@ -8,26 +8,12 @@
              :is-wish-list-enabled="{{ services.url.isRouteEnabled("wish-list") | json_encode }}"
              :init-please-select-option="{{ initPleaseSelectOption | json_encode }}"
              :item-id="{{ item.documents[0].data.item.id }}">
-
-    {% set currentCategory = services.category.getCurrentCategory() %}
-
-
-    <template #default-dropzone v-slot="slotProps">
-        {{ shop_builder_category_template(currentCategory.id, "singleitem") | raw }}
+    <template #image-carousel>
+        {% set ImageCarouselOverride = LayoutContainer.show("Ceres::SingleItem.ImageCarousel") %}
+        {% if ImageCarouselOverride|trim is empty %}
+            <item-image-carousel plugin-path="{{ plugin_path('Ceres') }}" image-url-accessor="url"></item-image-carousel>
+        {% else %}
+            {{ ImageCarouselOverride }}
+        {% endif %}
     </template>
-
-    <template #second-dropzone v-slot="slotProps">
-        <div class="container">
-            <div class="row">
-                <div class="col-12  mt-2">
-                    <h1 class="h2 title" data-testing="item-name">{{ item.documents[0].data.texts.name1 }}</h1>
-                </div>
-            </div>
-        </div>
-        <hr>
-        <br>
-        {{ shop_builder_category_template(currentCategory.id, "singleitem", "second-dropzone") | raw }}
-    </template>
-
 </single-item>
-

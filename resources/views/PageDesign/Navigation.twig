@@ -1,0 +1,36 @@
+{% set companyLogo  = config("Ceres.header.company_logo") %}
+{% set showHeaderNavBar = config("Ceres.header.show_navbars") %}
+{% set companyName  = trans("Ceres::Template.headerCompanyName") %}
+{% set useMegaMenu  = config("Ceres.header.megamenu_levels") > 1 %}
+
+<nav class="navbar header-fw p-0 border-bottom{% if useMegaMenu %} megamenu{% else %} normalmenu{% endif %}">
+    <div class="container-max d-block">
+        <div class="row mx-0 position-relative d-flex">
+            <div class="brand-wrapper px-lg-3 d-flex flex-fill{% if showHeaderNavBar == "side" %} position-relative{% endif %}">
+                <button v-open-mobile-navigation class="navbar-toggler d-lg-none ml-0 float-left" type="button">
+                    &#9776;
+                </button>
+                {% if companyLogo | trim | length > 0 %}
+                    <a class="navbar-brand mx-auto" href="{{ homepageURL }}">
+                        {% if ('http' in companyLogo) or ('layout/' in companyLogo) %}
+                            <img alt="{{ companyName }}" src="{{ companyLogo }}" class="img-fluid" />
+                        {% else %}
+                            <img alt="{{ companyName }}" src="{{ plugin_path('Ceres') }}/{{ companyLogo }}" class="img-fluid" />
+                        {% endif %}
+                    </a>
+                {% endif %}
+                <a href="/basket" class="d-lg-none ms-auto mt-3">
+                    <i class="fa fa-shopping-bag fa-lg"></i>
+                </a>
+            </div>
+
+            <div class="main-navbar-collapsable d-none d-lg-block">
+                {% if showHeaderNavBar == "top" or showHeaderNavBar == "both" or not services.template.isCategory() %}
+                    {% include "Theme::PageDesign.NavigationList" %}
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+</nav>
+

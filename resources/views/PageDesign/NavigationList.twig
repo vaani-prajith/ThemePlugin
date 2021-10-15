@@ -1,0 +1,21 @@
+{% import "Ceres::Category.Macros.CategoryTree" as Tree %}
+
+<ul class="mainmenu p-0 m-0 d-flex">
+    {{ Tree.get_nav_bar(
+        categories,
+        "",
+        ceresConfig.header.megamenuLevels,
+        {
+            "1": ceresConfig.header.megamenuItemsStage1,
+            "2": ceresConfig.header.megamenuItemsStage2,
+            "3": ceresConfig.header.megamenuItemsStage3
+        }
+    ) }}
+
+    <li class="d-none d-lg-block">
+        <a href="/basket">
+            <i class="fa fa-shopping-bag fa-lg"></i>
+        </a>
+    </li>
+
+</ul>

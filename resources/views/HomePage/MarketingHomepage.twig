@@ -75,14 +75,15 @@
 <div class="container-fluid design mt-2 mb-5">
     <div class="row no-gutters beispiel-image">
         <div class="col-sm-12 col-lg-3">
-            <a href="https://52xyf64jq4as.c01-17.plentymarkets.com/snappap-ideen/snappap-ideen/kosmetiktasche-andiamo/a-148/">
+            {% set var1 = services.url.getVariationURL(148,1086,"de").toAbsoluteUrl(true) %}
+            <a href="{{ var1 }}">
                 <figure class="figure">
                     <div class="img-hover-zoom">
                         <img src="https://cdn02.plentymarkets.com/52xyf64jq4as/item/images/148/full/SnapPap-design-Flowers-1.jpg" alt="Sulky-Geldbo--rse" class="img-fluid zoom">
                     </div>
                     <figcaption class="figure-caption font-weight-bold p-3">
-                        <a href="https://52xyf64jq4as.c01-17.plentymarkets.com/snappap-ideen/snappap-ideen/kosmetiktasche-andiamo/a-148/" class="display-4">
-                            {{ trans("Theme::Template.designBeispiel1")  }}
+                        <a href="{{ var1 }}" class="display-4">
+                             {{ trans("Theme::Template.designBeispiel1")  }}
                         </a>
                     </figcaption>
                 </figure>
@@ -184,7 +185,8 @@
         <div class="col-sm-12 text-center">
             <p class="lead display-3 mt-5 mb-5">
                 {{ trans("Theme::Template.buyHeading")  }}
-                <a href="https://52xyf64jq4as.c01-17.plentymarkets.com/shoppen/" class="btn bnt-large btn-outline-dark ml-5" role="button">
+                {% set shoppenURL = services.url.getCategoryURL(29, "de").toAbsoluteUrl(true) %}
+                <a href="{{ shoppenURL }}" class="btn bnt-large btn-outline-dark ml-5" role="button">
                     {{ trans("Theme::Template.buyButton")  }}
                 </a>
             </p>

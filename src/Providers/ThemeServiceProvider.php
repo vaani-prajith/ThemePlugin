@@ -33,6 +33,7 @@ class ThemeServiceProvider extends TemplateServiceProvider
         {
             $partial->set('footer', 'Theme::content.ThemeFooter');
             $partial->set('page-design', 'Ceres::PageDesign.PageDesign');
+            $partial->set('header', 'Theme::PageDesign.Header');
             return false;
         }, 0);
 
@@ -48,11 +49,29 @@ class ThemeServiceProvider extends TemplateServiceProvider
             return false;
         }, 0);
 
-        // Override VUE Template
+        //override category item vue component
         $eventDispatcher->listen("IO.Resources.Import", function(ResourceContainer $container)
         {
-            $container->addScriptTemplate('Theme::Item.Components.SingleItem');
+            $container->addScriptTemplate('Theme::Category.Component.CategoryItem');
+        },0);
+        //override Addtobasket component
+        $eventDispatcher->listen("IO.Resources.Import", function(ResourceContainer $container)
+        {
+            $container->addScriptTemplate('Theme::Basket.AddToBasket');
+        },0);
+        //override category page for articles
+        $eventDispatcher->listen('IO.tpl.category.item', function(TemplateContainer $container){
+            $container->setTemplate('Theme::Category.CategoryItemView.twig');
         }, 0);
+        //override category page for content pages
+        $eventDispatcher->listen('IO.tpl.category.content', function(TemplateContainer $container){
+            $container->setTemplate('Theme::Category.CategoryContent.twig');
+        }, 0);
+        //override sing-item component
+        $eventDispatcher->listen("IO.Resources.Import", function(ResourceContainer $container)
+        {
+            $container->addScriptTemplate('Theme::Item.Component.SingleItem');
+        },0);
 
         // Override SingleItemView
         $this->overrideTemplate("Ceres::Item.SingleItemWrapper", "Theme::Item.SingleItemWrapper");

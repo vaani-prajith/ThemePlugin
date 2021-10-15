@@ -1,0 +1,70 @@
+<script type="x/template" data-component="add-to-basket">
+    <template>
+        <div>
+            <div :class="{'no-pointer-events': isLoading}" class="d-sm-block d-lg-block"  v-if="!showQuantity && useLargeScale && canBeAddedToBasket"
+                 :title="$translate('Ceres::Template.singleItemAddToBasket')" @click="addToBasket()">
+                <i class="fa fa-shopping-cart fa-lg circle-icon" aria-hidden="true"></i>
+            </div>
+            {# to view items that cannot be added to basket: direct to single item view using right-arrow icon #}
+            <div class="add-to-basket-lg-container d-none d-lg-block" v-if="!showQuantity && useLargeScale && !canBeAddedToBasket"
+                 v-tooltip data-toggle="tooltip" data-placement="top" :title="$translate('Ceres::Template.itemShowItem')" @click="directToItem()">
+                <i class="fa fa-arrow-right fa-lg d-none d-sm-block"></i>
+            </div>
+
+            <div class="d-inline" v-if="showQuantity && !useLargeScale" :class="{'d-lg-none': !$ceres.isItemView }">
+                <div class="add-to-basket-container">
+                    <div class="quantity-input-container">
+                        <quantity-input :value="quantity"
+                                        @quantity-change="updateQuantity"
+                                        @out-of-stock="handleButtonState"
+                                        :timeout="0"
+                                        :min="minimumQuantity"
+                                        :max="maximumQuantity"
+                                        :interval="intervalQuantity"
+                                        :variation-id="variationId"
+                                        :waiting="isLoading || !isSalable || !allVariationsSelected">
+                        </quantity-input>
+                    </div>
+
+                    <button
+                            v-if="!allVariationsSelected || !isSalable"
+                            class="btn btn-block btn-primary btn-appearance disabled"
+                            v-tooltip
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            :title="tooltipText"
+                            :class="buttonClasses"
+                            :style="paddingInlineStyles">
+                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                        ${ $translate("Ceres::Template.singleItemAddToBasket") }
+                    </button>
+                    {# add-to-basket button in single-item view #}
+                    <button
+                            v-else-if="!buttonLockState"
+                            :disabled="isLoading || !hasPrice || currentVariation.prices.default.basePrice === 0"
+                            class="btn btn-block  btn-appearance"
+                            @click="addToBasket()"
+                            :class="buttonClasses"
+                            :style="paddingInlineStyles"
+                            style="background-color: #eb5169">
+                        <icon icon="shopping-cart" class="fas fa-cart-plus" :loading="isLoading"></icon>
+                        ${ $translate("Ceres::Template.singleItemAddToBasket") }
+                    </button>
+                    <button v-else
+                            class="btn btn-block btn-primary btn-appearance disabled"
+                            v-tooltip
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            :title="'Ceres::Template.singleItemQuantityMax' | translate({ max: maximumQuantity })"
+                            :class="buttonClasses"
+                            :style="paddingInlineStyles">
+                        <icon icon="shopping-cart" class="fas fa-cart-plus" :loading="isLoading"></icon>
+                        ${ $translate("Ceres::Template.singleItemAddToBasket") }
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </template>
+
+</script>
