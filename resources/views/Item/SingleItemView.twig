@@ -8,6 +8,7 @@
              :is-wish-list-enabled="{{ services.url.isRouteEnabled("wish-list") | json_encode }}"
              :init-please-select-option="{{ initPleaseSelectOption | json_encode }}"
              :item-id="{{ item.documents[0].data.item.id }}">
+
     <template #image-carousel>
         {% set ImageCarouselOverride = LayoutContainer.show("Ceres::SingleItem.ImageCarousel") %}
         {% if ImageCarouselOverride|trim is empty %}

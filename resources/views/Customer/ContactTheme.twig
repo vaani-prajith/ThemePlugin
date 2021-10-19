@@ -9,13 +9,7 @@
 
 {% set coordinates = services.contactMap.getMapCoordinates(googleApiKey, street, zip) %}
 
-{% block PartialHead %}
-    {% embed getPartial('page-metadata') %}
-        {% block title          trans('Ceres::Template.contact') %}
-        {% block description    trans('Ceres::Template.contactMetaDescription') %}
-        {% block robots         ceresConfig.meta.robotsContact %}
-    {% endembed %}
-{% endblock %}
+
 
 {% block PageBody %}
     <div class="page-content container-max contact pt-0 bg-white">

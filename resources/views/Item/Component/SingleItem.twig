@@ -27,14 +27,16 @@
                                     ${ currentVariation.prices.rrp.unitPrice.formatted | itemCrossPrice  }
                                 </del>
                             </div>
-                            <span class="price h1 d-inline-block">
+                            <div v-if="currentVariation.prices.default.price.value > 0">
+                                <span class="price h1 d-inline-block">
                                 <span ref="variationTotalPrice" :content="currentVariation.prices.default.price.value">
                                      ${ (currentVariation.prices.default.price.value * currentVariation.variation.minimumOrderQuantity) | currency(currentVariation.prices.default.currency) }
                                 </span>
                                 <span :content="currentVariation.prices.default.currency"></span>
                             </span>
+                            </div>
                             {# BASEPRICE #}
-                            <div class="d-inline-block base-price text-muted my-3 vatBox ml-2">
+                            <div v-if="currentVariation.prices.default.price.value > 0" class="d-inline-block base-price text-muted my-3 vatBox ml-2">
                                 <span class="vat text-muted">
                                     <span v-if="currentVariation.unit && currentVariation.unit.unitOfMeasurement =='MTR'">
                                         <span v-if="currentVariation.variation.minimumOrderQuantity == 0.5">
@@ -66,7 +68,8 @@
                                 <div v-if="currentVariation.item.itemType === 'set'" class="alert alert-info w-100">
                                     ${ $translate("Ceres::Template.singleItemSetInfo") }
                                 </div>
-                                <div v-else class="col-12 col-sm-7 col-md-12 col-lg-8 my-3">
+
+                                 <div v-else-if="currentVariation.prices.default.price.value > 0" class="col-12 col-sm-7 col-md-12 col-lg-8 my-3">
                                     <add-to-basket
                                             :variation-id="currentVariation.variation.id"
                                             :is-salable="!!currentVariation.filter && currentVariation.filter.isSalable"

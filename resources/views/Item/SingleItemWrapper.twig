@@ -86,6 +86,51 @@
 {% block PageBody %}
     {{ set_item_data_base(item.documents[0].data) }}
 
-    {% include "Theme::Item.SingleItemView" %}
+    {% set ideen = [26] %}
+
+        {% if item.documents[0].data.defaultCategories[0].id != 26 %}
+            {% include "Theme::Item.SingleItemView" %}
+        {% else %}
+            <single-item
+                    v-cloak
+                    template = "#ideen-view"
+                    item-data="{{ item | json_data }}"
+                    attributes-data="{{ attributes | json_data }}"
+                    variations="{{ variations | json_data }}"
+                    :after-key="{{ afterKey | json_encode }}"
+                    :init-please-select-option="{{ initPleaseSelectOption | json_encode }}"
+                    :item-id="{{ item.documents[0].data.item.id }}"
+            >
+                <template #image-carousel>
+                    {% set ImageCarouselOverride = LayoutContainer.show("Ceres::SingleItem.ImageCarousel") %}
+                    {% if ImageCarouselOverride|trim is empty %}
+                        <item-image-carousel plugin-path="{{ plugin_path('Ceres') }}" image-url-accessor="url"></item-image-carousel>
+                    {% else %}
+                        {{ ImageCarouselOverride }}
+                    {% endif %}
+                </template>
+            </single-item>
+            {# {{ component("Theme::Item.Component.IdeenItem") }}
+            <single-item
+                    v-cloak
+                    template = "#ideen-item-view"
+                    item-data="{{ item | json_data }}"
+                    attributes-data="{{ attributes | json_data }}"
+                    variations="{{ variations | json_data }}"
+                    :after-key="{{ afterKey | json_encode }}"
+                    :init-please-select-option="{{ initPleaseSelectOption | json_encode }}"
+                    :item-id="{{ item.documents[0].data.item.id }}"
+                    >
+                <template #image-carousel>
+                    {% set ImageCarouselOverride = LayoutContainer.show("Ceres::SingleItem.ImageCarousel") %}
+                    {% if ImageCarouselOverride|trim is empty %}
+                        <item-image-carousel plugin-path="{{ plugin_path('Ceres') }}" image-url-accessor="url"></item-image-carousel>
+                    {% else %}
+                        {{ ImageCarouselOverride }}
+                    {% endif %}
+                </template>
+            </single-item> #}
+
+    {% endif %}
 
 {% endblock %}

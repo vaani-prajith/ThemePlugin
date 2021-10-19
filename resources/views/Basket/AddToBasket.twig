@@ -41,7 +41,7 @@
                     {# add-to-basket button in single-item view #}
                     <button
                             v-else-if="!buttonLockState"
-                            :disabled="isLoading || !hasPrice || currentVariation.prices.default.basePrice === 0"
+                            :disabled="isLoading || !hasPrice"
                             class="btn btn-block  btn-appearance"
                             @click="addToBasket()"
                             :class="buttonClasses"
@@ -51,7 +51,7 @@
                         ${ $translate("Ceres::Template.singleItemAddToBasket") }
                     </button>
                     <button v-else
-                            class="btn btn-block btn-primary btn-appearance disabled"
+                            class="btn btn-block btn-primary btn-appearance disabled d-none"
                             v-tooltip
                             data-toggle="tooltip"
                             data-placement="top"

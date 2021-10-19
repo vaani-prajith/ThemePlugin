@@ -32,9 +32,9 @@
             {% set subCategories = services.category.getChildren(category.id) %}
             {% for subCategory in subCategories %}
                 {% if subCategory.linklist=="Y"%}
-                    {# {% set URL = services.category.getURLById(subCategory.id) %}  #}
+                    {% set URL = services.category.getURLById(subCategory.id) %}
                     <div class="col-6  col-md-3 mb-4">
-                        <a href="{{ subCategory.details[0].nameUrl }}" class="image-box">
+                        <a href="{{ URL }}" class="image-box">
                             {% if subCategory.details[0].imagePath%}
                                 {% set imagePath = "/documents/" ~ subCategory.details[0].imagePath %}
                                 <img src="{{ imagePath }}" class="cat-img img-fluid">
